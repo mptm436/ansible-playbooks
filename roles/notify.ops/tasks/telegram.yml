@@ -1,0 +1,13 @@
+---
+# tasks file for telegram_notify
+
+- name: Send message via Telegram
+  ansible.builtin.uri:
+    url: "https://api.telegram.org/bot{{ telegram_bot_token }}/sendMessage"
+    method: POST
+    body_format: json
+    body:
+      chat_id: "{{ telegram_chat_id }}"
+      text: "{{ telegram_msg }}"
+    status_code: 200
+  delegate_to: localhost

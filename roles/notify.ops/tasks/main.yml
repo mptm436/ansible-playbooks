@@ -1,0 +1,3 @@
+---
+- name: Send Telegram message
+  ansible.builtin.include_tasks: telegram.yml
