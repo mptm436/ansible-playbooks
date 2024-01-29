@@ -1,0 +1,16 @@
+- name: Check if Oh My Zsh is already installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh"
+  register: oh_my_zsh_installed
+
+- name: Install Oh My Zsh unattendedly
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  args:
+    executable: /bin/bash
+  when: not oh_my_zsh_installed.stat.exists
+
+- name: Change default shell to Zsh
+  ansible.builtin.user:
+    name: "{{ ansible_env.USER }}"
+    shell: /usr/bin/zsh
+  become: true

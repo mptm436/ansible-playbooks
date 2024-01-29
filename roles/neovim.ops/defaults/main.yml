@@ -1,0 +1,4 @@
+---
+# Default variables for neovim_install role
+
+neovim_version: stable # You can change this to a specific tag or branch

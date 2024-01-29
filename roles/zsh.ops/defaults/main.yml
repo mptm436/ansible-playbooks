@@ -1,0 +1,10 @@
+---
+# Default variables for the zsh_setup role
+
+oh_my_zsh_plugins:
+  - git
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+  # Add more plugins as needed
+
+oh_my_zsh_theme: "powerlevel10k/powerlevel10k"

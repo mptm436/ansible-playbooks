@@ -1,0 +1,29 @@
+---
+- name: Download Go binary
+  ansible.builtin.get_url:
+    url: "https://golang.org/dl/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+    mode: "0755"
+  register: download_go
+  until: download_go is succeeded
+
+- name: Remove existing Go installation
+  ansible.builtin.file:
+    path: "{{ go_install_dir }}/go"
+    state: absent
+  become: true
+
+- name: Extract Go tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "{{ go_install_dir }}"
+    remote_src: yes
+  become: true
+
+- name: Set Go environment variables in profile
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    regexp: "^export PATH=.*$"
+    line: "export PATH=$PATH:{{ go_install_dir }}/go/bin"
+    state: present
+  when: ansible_env.SHELL is match("/bash$")

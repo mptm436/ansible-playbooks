@@ -1,0 +1,7 @@
+---
+- name: Install zsh
+  ansible.builtin.include_tasks: zsh-install.yml
+- name: Install zsh
+  ansible.builtin.include_tasks: oh-my-zsh-install.yml
+- name: Install plugins and themes
+  ansible.builtin.include_tasks: install-plugin-theme.yml

@@ -1,0 +1,5 @@
+---
+go_install_dir: "/usr/local"
+go_version: "1.21.6"
+
+nvm_version: "0.39.7"

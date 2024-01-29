@@ -1,0 +1,37 @@
+---
+- name: Ensure sudo is installed
+  apt:
+    pkg: sudo
+    update_cache: true
+
+- name: Make sure the wheel group exists
+  group:
+    name: wheel
+    state: present
+
+- name: Allow wheel group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: Add sudoers users to target groups
+  user:
+    name: "{{ username }}"
+    groups:
+    - users
+    - wheel
+    - sudo
+    append: true
+    shell: /bin/bash
+    state: present
+    createhome: true
+
+- name: Set up authorized keys for the new user
+  ansible.posix.authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ lookup('file', '{{ item }}') }}"
+  loop: "{{ public_keys }}"

@@ -1,0 +1,12 @@
+---
+# tasks file for rust_install
+
+- name: Download and run the Rust installation script
+  ansible.builtin.shell:
+    cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    executable: /bin/bash
+  args:
+    creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+  environment:
+    HOME: "{{ ansible_env.HOME }}"
+    USER: "{{ ansible_env.USER }}"

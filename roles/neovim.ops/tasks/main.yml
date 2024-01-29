@@ -1,0 +1,34 @@
+---
+# tasks file for neovim_install
+
+- name: Install prerequisites for Neovim
+  ansible.builtin.apt:
+    name:
+      - ninja-build
+      - gettext
+      - cmake
+      - unzip
+      - curl
+    state: present
+  become: true
+
+- name: Clone Neovim repository
+  ansible.builtin.git:
+    repo: "https://github.com/neovim/neovim"
+    dest: "/tmp/neovim"
+    version: "{{ neovim_version }}"
+    clone: true
+    update: true
+
+- name: Build Neovim from source
+  ansible.builtin.shell:
+    cmd: make CMAKE_BUILD_TYPE=RelWithDebInfo
+    chdir: "/tmp/neovim"
+  args:
+    creates: "/tmp/neovim/build/bin/nvim"
+
+- name: Install Neovim
+  ansible.builtin.shell:
+    cmd: sudo make install
+    chdir: "/tmp/neovim"
+  become: true

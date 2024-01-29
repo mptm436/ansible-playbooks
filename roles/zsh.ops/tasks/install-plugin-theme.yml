@@ -1,0 +1,36 @@
+---
+# tasks file for zsh plugin and themes setup
+- name: Clone zsh-syntax-highlighting plugin
+  ansible.builtin.git:
+    repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    clone: true
+    update: true
+  become_user: "{{ ansible_env.USER }}"
+
+- name: Clone zsh-autosuggestions plugin
+  ansible.builtin.git:
+    repo: "https://github.com/zsh-users/zsh-autosuggestions"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    clone: true
+    update: true
+  become_user: "{{ ansible_env.USER }}"
+
+- name: Clone Powerlevel10k theme
+  ansible.builtin.git:
+    repo: "https://github.com/romkatv/powerlevel10k.git"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    clone: true
+    update: true
+  become_user: "{{ ansible_env.USER }}"
+
+- name: Configure plugins and theme in .zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    regexp: "^(ZSH_THEME|plugins="
+    line: |
+      ZSH_THEME="powerlevel10k/powerlevel10k"
+      plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+    state: present
+    create: true
+  become_user: "{{ ansible_env.USER }}"

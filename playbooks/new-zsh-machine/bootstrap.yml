@@ -1,0 +1,42 @@
+---
+- hosts: all
+
+  vars:
+    base_packages:
+      - curl
+      - wget
+      - vim
+      - neofetch
+      - tmux
+      - tree
+      - iputils-ping
+    extra_packages:
+      - yadm
+      - jq
+      - ripgrep
+    dist_upgrade: false # Set this var to true to perform dist-upgrade
+
+  tasks:
+    - name: Upgrade remote server
+      include_role:
+        name: apt.ops/update.ops
+
+    - name: Install packages with apt
+      include_role:
+        name: apt.ops/install-packages.ops
+
+    - name: Install dev languages
+      include_role:
+        name: dev-lang.ops
+
+    - name: Install pyenv
+      include_role:
+        name: pyenv.ops
+
+    - name: Install Neovim
+      include_role:
+        name: neovim.ops
+
+    - name: Install and configure ZSH
+      include_role:
+        name: zsh.ops

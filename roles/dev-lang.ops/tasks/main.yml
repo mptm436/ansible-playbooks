@@ -1,0 +1,9 @@
+---
+- name: Install rust
+  ansible.builtin.include_tasks: install-rust.yml
+
+- name: Install golang
+  ansible.builtin.include_tasks: install-golang.yml
+
+- name: Install nvm and nodejs
+  ansible.builtin.include_tasks: install-node.yml

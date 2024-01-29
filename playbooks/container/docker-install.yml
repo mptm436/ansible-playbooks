@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  vars:
+    # Packages to be installed
+    - base_packages:
+        - curl
+        - wget
+        - vim
+        - neofetch
+        - tmux
+        - screen
+        - tree
+        - iputils-ping
+    - extra_packages:
+        - ripgrep
+        - jq
+
+  roles:
+    - role: apt.ops/install-packages.ops
+      when: ansible_os_family == "Debian"
+    - role: docker.ops

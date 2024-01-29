@@ -1,0 +1,21 @@
+---
+- name: Install packages with apt
+  hosts: all
+  become: true
+
+  vars:
+    # Packages to be installed
+    - base_packages:
+        - curl
+        - wget
+        - vim
+        - neofetch
+        - tmux
+        - screen
+        - tree
+        - iputils-ping
+    - extra_packages:
+        - jq
+        - ripgrep
+  roles:
+    - role: apt.ops/install-packages.ops/

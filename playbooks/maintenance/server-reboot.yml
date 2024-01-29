@@ -1,0 +1,7 @@
+---
+- name: Reboot remote server
+  hosts: all
+  become: true
+
+  roles:
+    - role: maintenance.ops/reboot.ops

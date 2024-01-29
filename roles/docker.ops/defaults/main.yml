@@ -1,0 +1,9 @@
+---
+compose_version: "1.29.2"
+
+user:
+  name: packer
+  groups:
+   - users
+   - wheel
+   - sudo

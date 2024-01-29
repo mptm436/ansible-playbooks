@@ -1,0 +1,21 @@
+---
+- name: Gather package facts
+  become: true
+  ansible.builtin.package_facts:
+    manager: apt
+
+- name: Check if packages are installed
+  become: true
+  block:
+    - name: Check base_packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      when: item not in ansible_facts.packages
+      loop: "{{ base_packages }}"
+    - name: Check extra_packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      when: item not in ansible_facts.packages
+      loop: "{{ extra_packages }}"
