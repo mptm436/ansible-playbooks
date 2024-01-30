@@ -40,3 +40,7 @@
     - name: Install and configure ZSH
       include_role:
         name: zsh.ops
+
+    - name: Add pyenv initiative to ZSH
+      include_role:
+        name: pyenv.ops/tasks/configure_zsh.yml
