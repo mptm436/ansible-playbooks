@@ -24,13 +24,20 @@
     update: true
   become_user: "{{ ansible_env.USER }}"
 
-- name: Configure plugins and theme in .zshrc
+- name: Set ZSH theme in .zshrc
   ansible.builtin.lineinfile:
     path: "{{ ansible_env.HOME }}/.zshrc"
-    regexp: "^(ZSH_THEME|plugins="
-    line: |
-      ZSH_THEME="powerlevel10k/powerlevel10k"
-      plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+    regexp: "^ZSH_THEME=.*"
+    line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+    state: present
+    create: true
+  become_user: "{{ ansible_env.USER }}"
+
+- name: Set ZSH plugins in .zshrc
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zshrc"
+    regexp: "^plugins=.*"
+    line: "plugins=(git zsh-syntax-highlighting zsh-autosuggestions)"
     state: present
     create: true
   become_user: "{{ ansible_env.USER }}"
