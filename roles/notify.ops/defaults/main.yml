@@ -1,6 +1,6 @@
 ---
 # Default variables for telegram_notify role
 
-telegram_bot_token: "1388874373:AAEzyPXMuULkpHY5KnDF9uuZowLSptEgGrk"
-telegram_chat_id: "-1001333711487"
+telegram_bot_token: ""
+telegram_chat_id: ""
 telegram_msg: "Test"
