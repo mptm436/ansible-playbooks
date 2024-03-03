@@ -1,0 +1,15 @@
+---
+# Default version of Go to install
+golang_version: "1.21.6"
+
+# Installation directory for Go
+golang_install_dir: "/usr/local/go"
+
+# GOPATH setting
+golang_gopath: "/home/{{ ansible_user }}/go"
+
+# GOROOT setting
+golang_goroot: "{{ golang_install_dir }}"
+
+# System profile to update PATH
+golang_profile_path: "/etc/profile.d/golang.sh"

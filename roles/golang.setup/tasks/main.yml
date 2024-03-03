@@ -1,0 +1,46 @@
+---
+- name: Determine the architecture
+  ansible.builtin.set_fact:
+    golang_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm64' }}"
+
+- name: Define Golang download URL
+  ansible.builtin.set_fact:
+    golang_download_url: "https://go.dev/dl/go{{ golang_version }}.linux-{{ golang_arch }}.tar.gz"
+
+- name: Check if Go is already installed
+  ansible.builtin.stat:
+    path: "{{ golang_goroot }}/bin/go"
+  register: go_bin
+
+- name: Download Go binary
+  ansible.builtin.get_url:
+    url: "{{ golang_download_url }}"
+    dest: "/tmp/go{{ golang_version }}.linux-{{ golang_arch }}.tar.gz"
+    mode: "0644"
+  when: not go_bin.stat.exists
+
+- name: Extract Go binary
+  ansible.builtin.unarchive:
+    src: "/tmp/go{{ golang_version }}.linux-{{ golang_arch }}.tar.gz"
+    dest: "/usr/local"
+    remote_src: true
+    creates: "{{ golang_goroot }}/bin/go"
+  when: not go_bin.stat.exists
+
+- name: Set Go environment variables
+  blockinfile:
+    path: "{{ golang_profile_path }}"
+    create: true
+    block: |
+      export GOROOT={{ golang_goroot }}
+      export GOPATH={{ golang_gopath }}
+      export PATH=$PATH:{{ golang_goroot }}/bin:{{ golang_gopath }}/bin
+  mode: "0644" # Sets the file to be readable by all users and writable by the owner
+  when: not go_bin.stat.exists
+  become: true
+
+- name: Remove Go binary after installation
+  ansible.builtin.file:
+    path: "/tmp/go{{ golang_version }}.linux-{{ golang_arch }}.tar.gz"
+    state: absent
+  when: not go_bin.stat.exists

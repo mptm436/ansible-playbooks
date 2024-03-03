@@ -1,0 +1,6 @@
+---
+- name: Setup Golang
+  hosts: all
+  become: true
+  roles:
+    - golang.setup
