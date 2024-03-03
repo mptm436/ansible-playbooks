@@ -35,7 +35,15 @@
       export GOROOT={{ golang_goroot }}
       export GOPATH={{ golang_gopath }}
       export PATH=$PATH:{{ golang_goroot }}/bin:{{ golang_gopath }}/bin
-  mode: "0644" # Sets the file to be readable by all users and writable by the owner
+  when: not go_bin.stat.exists
+  become: true
+
+- name: Ensure correct permissions for golang.sh
+  ansible.builtin.file:
+    path: "{{ golang_profile_path }}"
+    owner: root
+    group: root
+    mode: "0644"
   when: not go_bin.stat.exists
   become: true
 
