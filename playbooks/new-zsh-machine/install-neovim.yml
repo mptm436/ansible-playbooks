@@ -1,0 +1,7 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Install Neovim
+      include_role:
+        name: neovim.ops
