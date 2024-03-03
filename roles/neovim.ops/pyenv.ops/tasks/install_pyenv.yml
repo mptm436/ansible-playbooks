@@ -1,6 +1,0 @@
----
-- name: Install pyenv using the install script
-  ansible.builtin.shell: |
-    curl -sL https://pyenv.run | bash
-  args:
-    creates: "{{ pyenv_root }}/bin/pyenv"
