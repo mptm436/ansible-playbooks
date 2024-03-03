@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: Upgrade remote server
+      include_role:
+        name: apt.ops/update.ops
+
+    - name: Install packages with apt
+      include_role:
+        name: apt.ops/install-packages.ops
+
+    - name: Install dev languages
+      include_role:
+        name: dev-lang.ops
+
+    - name: Install pyenv
+      include_role:
+        name: pyenv.ops
