@@ -1,10 +1,9 @@
 ---
 - hosts: all
   tasks:
+    - name: Gather facts
+      ansible.builtin.setup:
+
     - name: Install dev languages
       include_role:
         name: dev-lang.ops
-
-    - name: Install pyenv
-      include_role:
-        name: pyenv.ops
